@@ -1,8 +1,7 @@
 import torch
 from moviepy.editor import VideoFileClip
 from transformers import pipeline
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from difflib import SequenceMatcher
 
 
 def calculate_similarity_score(video_path, text):
@@ -45,10 +44,6 @@ def calculate_similarity_score(video_path, text):
     asr_output = pipe("temp_audio.wav")["text"]
 
     # Create n-gram representation
-    vectorizer = CountVectorizer(ngram_range=(2, 2))
-    ngram_matrix = vectorizer.fit_transform([text, asr_output])
-
-    # Calculate cosine similarity
-    similarity_score = cosine_similarity(ngram_matrix[0:1], ngram_matrix[1:2])[0][0]
+    similarity_score = SequenceMatcher(None, text, asr_output).ratio()
 
     return similarity_score
