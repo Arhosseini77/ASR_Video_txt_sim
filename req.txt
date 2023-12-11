@@ -1,5 +1,5 @@
 transformers==4.35.2
-scikit-image==0.22.0
+#scikit-image==0.22.0
 pillow
 imageio
 onnxruntime==1.16.3
